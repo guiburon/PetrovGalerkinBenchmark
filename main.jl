@@ -96,7 +96,7 @@ res_rel_norm[4] /= norm(Tpr0' * b)
 res_rel_norm[5] /= norm(Tpe0' * b)
 
 summary = DataFrame(
-  "method" => ["alt realization", "Galerkin", "truncature", "Petrov res", "Petrov err"],
+  "method" => ["alt realization", "Galerkin", "truncature", "Petrov min res", "Petrov min err"],
   "rel err" => err_rel_norm,
   "rel res" => res_rel_norm,
 )
@@ -133,10 +133,10 @@ resxp1_rel_norm = [norm(res_i) / norm(b[eq1]) for res_i in eachcol(resxp1)]
 resxp2_rel_norm = [norm(res_i) / norm(b[eq2]) for res_i in eachcol(resxp2)]
 
 summaryxp = DataFrame(
-  "method" => ["alt realization", "Galerkin", "truncature", "Petrov res", "Petrov err"],
+  "method" => ["alt realization", "Galerkin", "truncature", "Petrov min res", "Petrov min err"],
   "rel err" => errxp_rel_norm,
   "rel res" => resxp_rel_norm,
-  "rel master res" => resxp1_rel_norm
+  "master rel res" => resxp1_rel_norm
 )
 
 
