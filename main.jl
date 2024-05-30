@@ -83,7 +83,7 @@ xpe = factorize(Ape - s * Bpe) \ bpe
 sol = hcat(xr, xg, x0, xpr, xpe)
 
 # error
-err = hcat(
+xerr = hcat(
   T0' * T0 * xr - T0' * x,
   T0' * T0 * xg - T0' * x,
   T0' * T0 * x0 - T0' * x,
@@ -91,7 +91,7 @@ err = hcat(
   T0' * T0 * xpe - T0' * x,
 )
 
-err_rel_norm = [norm(err_i) / norm(T0' * x) for err_i in eachcol(err)]
+xerr_rel_norm = [norm(xerr_i) / norm(T0' * x) for xerr_i in eachcol(xerr)]
 
 # residual
 res = hcat(
@@ -111,14 +111,14 @@ res_rel_norm[5] /= norm(Tpe0' * b)
 
 summary = DataFrame(
   "method" => ["alt realization", "Galerkin", "truncature", "Petrov min res", "Petrov min err"],
-  "rel err" => err_rel_norm,
+  "rel err" => xerr_rel_norm,
   "rel res" => res_rel_norm,
 )
 
 
 # expanded
 # error
-errxp = hcat(
+xerrxp = hcat(
   T0 * xr - x,
   T0 * xg - x,
   T0 * x0 - x,
@@ -126,7 +126,7 @@ errxp = hcat(
   T0 * xpe - x,
 )
 
-errxp_rel_norm = [norm(err_i) / norm(x) for err_i in eachcol(errxp)]
+xerrxp_rel_norm = [norm(xerr_i) / norm(x) for xerr_i in eachcol(xerrxp)]
 
 # residual
 resxp = hcat(
@@ -148,7 +148,7 @@ resxp2_rel_norm = [norm(res_i) / norm(b[eq2]) for res_i in eachcol(resxp2)]
 
 summaryxp = DataFrame(
   "method" => ["alt realization", "Galerkin", "truncature", "Petrov min res", "Petrov min err"],
-  "rel err" => errxp_rel_norm,
+  "rel err" => xerrxp_rel_norm,
   "rel res" => resxp_rel_norm,
   "master rel res" => resxp1_rel_norm
 )
