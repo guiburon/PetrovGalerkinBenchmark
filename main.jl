@@ -13,8 +13,8 @@ n1 = length(eq1)
 n2 = length(eq2)
 n = n1 + n2
 
-Ψ0 = -A[eq2, eq2] \ A[eq2, eq1]
-ΨL0 = -A[eq2, eq2]' \ A[eq1, eq2]'
+Ψ0 = factorize(A[eq2, eq2]) \ -A[eq2, eq1]
+ΨL0 = factorize(A[eq2, eq2])' \ -A[eq1, eq2]'
 
 T0 = zeros(Float64, n, n1)
 T0[eq1, :] += 1.0 * I
@@ -24,7 +24,7 @@ T0[eq2, :] = Ψ0
 TL0[eq2, :] = ΨL0
 
 Tpr0 = A * T0
-Tpe0 = A' \ T0
+Tpe0 = factorize(A)' \ T0
 
 # "unsym Guyan" / alternative realization
 Ar = TL0' * A * T0
@@ -59,12 +59,12 @@ bpe = Tpe0' * b
 
 s = 1e6
 
-x = (A - s * B) \ b
-xr = (Ar - s * Br) \ br
-xg = (Ag - s * Bg) \ bg
-x0 = (A0 - s * B0) \ b0
-xpr = (Apr - s * Bpr) \ bpr
-xpe = (Ape - s * Bpe) \ bpe
+x = factorize(A - s * B) \ b
+xr = factorize(Ar - s * Br) \ br
+xg = factorize(Ag - s * Bg) \ bg
+x0 = factorize(A0 - s * B0) \ b0
+xpr = factorize(Apr - s * Bpr) \ bpr
+xpe = factorize(Ape - s * Bpe) \ bpe
 
 sol = hcat(xr, xg, x0, xpr, xpe)
 
