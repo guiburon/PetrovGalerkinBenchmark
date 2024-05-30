@@ -2,7 +2,7 @@ using LinearAlgebra
 using DataFrames
 using JLD2
 
-d = load("matrices.jld2")
+d = load("tank_matrices.jld2")
 
 A = d["A"]
 B = d["B"]
@@ -13,18 +13,22 @@ n1 = length(eq1)
 n2 = length(eq2)
 n = n1 + n2
 
-Ψ0 = factorize(A[eq2, eq2]) \ -A[eq2, eq1]
-ΨL0 = factorize(A[eq2, eq2])' \ -A[eq1, eq2]'
+# Ψ0 = factorize(A[eq2, eq2]) \ -Matrix(A[eq2, eq1])
+# ΨL0 = factorize(A[eq2, eq2])' \ -Matrix(A[eq1, eq2]')
 
 T0 = zeros(Float64, n, n1)
 T0[eq1, :] += 1.0 * I
 TL0 = copy(T0)
 T00 = copy(T0)
-T0[eq2, :] = Ψ0
-TL0[eq2, :] = ΨL0
+# T0[eq2, :] = Ψ0
+# TL0[eq2, :] = ΨL0
+
+T0 = d["T0"]
+TL0 = d["TL0"]
+Tpe0 = d["Tpe0"]
 
 Tpr0 = A * T0
-Tpe0 = factorize(A)' \ T0
+# Tpe0 = factorize(A)' \ T0
 
 # "unsym Guyan" / alternative realization
 Ar = TL0' * A * T0
@@ -57,7 +61,8 @@ b0 = T00' * b
 bpr = Tpr0' * b
 bpe = Tpe0' * b
 
-s = 1e6
+# s = 1e6
+s = (2pi * 0.1)^2
 
 x = factorize(A - s * B) \ b
 xr = factorize(Ar - s * Br) \ br
