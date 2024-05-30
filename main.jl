@@ -9,6 +9,10 @@ B = d["B"]
 eq1 = d["eq1"]
 eq2 = d["eq2"]
 
+# s0 = 4.6e6
+s0 = parse(Float64, ARGS[1])
+A = A - s0 * B
+
 n1 = length(eq1)
 n2 = length(eq2)
 n = n1 + n2
@@ -57,7 +61,8 @@ b0 = T00' * b
 bpr = Tpr0' * b
 bpe = Tpe0' * b
 
-s = 1e6
+# s = 1e6
+s = parse(Float64, ARGS[2])
 
 x = factorize(A - s * B) \ b
 xr = factorize(Ar - s * Br) \ br
