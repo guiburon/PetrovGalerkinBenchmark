@@ -27,6 +27,15 @@ T00 = copy(T0)
 T0[eq2, :] = Ψ0
 TL0[eq2, :] = ΨL0
 
+doOrtho = parse(Bool, ARGS[3])
+if doOrtho
+  using Substructuring
+  CGS!(T0)
+  CGS!(T0)
+  CGS!(TL0)
+  CGS!(TL0)
+end
+
 Tpr0 = A * T0
 Tpe0 = factorize(A)' \ T0
 
